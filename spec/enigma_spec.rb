@@ -8,6 +8,8 @@ RSpec.describe Enigma do
   end
 
   context 'it exists' do
-    expect(@enigma).to be_instance_of Enigma
+    it 'exists' do
+      expect(@enigma.class).to be(Enigma)
+    end
   end
 end
