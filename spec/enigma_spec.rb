@@ -12,4 +12,16 @@ RSpec.describe Enigma do
       expect(@enigma.class).to be(Enigma)
     end
   end
+
+  context 'methods' do
+    it 'can encrypt a message' do
+      expected = {
+        encryption: "keder ohulw",
+        key: "02715",
+        dates: "040895"
+      }
+
+      expect(@enigma.encrypt).to eq(expected)
+    end
+  end
 end
