@@ -21,7 +21,7 @@ RSpec.describe Enigma do
         dates: "040895"
       }
 
-      expect(@enigma.encrypt).to eq(expected)
+      expect(@enigma.encrypt("hello world", "02715", "040895")).to eq(expected)
     end
   end
 end
