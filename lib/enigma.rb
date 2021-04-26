@@ -40,7 +40,7 @@ class Enigma
     p.each_with_index {|idx, index| encrypted_phrase << "#{@alphabet[p[index].remainder(27)]}"}
     {encryption: encrypted_phrase,
       key: key,
-      dates: date
+      date: date
     }
   end
 
