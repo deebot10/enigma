@@ -92,7 +92,7 @@ class Enigma
     date_array_i
   end
 
-  def decrypt(message, key = "key", date = 'date')
+  def decrypt(message, key = "key", date = Date.today.strftime('%d%m%y'))
     key_range_method(key)
     offset_range_method(date)
     final_range_method
