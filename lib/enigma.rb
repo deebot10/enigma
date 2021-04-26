@@ -14,11 +14,10 @@ class Enigma
     x = []
     y = []
     p = []
-    message_array = message.split('')
     encrypted_phrase = ""
-    message_array.each {|letter| x << @alphabet.index(letter)}
+    message_array(message).each {|letter| x << @alphabet.index(letter)}
     3.times { y << @final_range.values}
-    u = y.flatten.first(message_array.count)
+    u = y.flatten.first(message_array(message).count)
     x.each_with_index do |letter, index1|
       u.each_with_index do |char, index2|
         p << (letter + char) if index1 == index2
@@ -31,6 +30,9 @@ class Enigma
     }
   end
 
+  def message_array(message)
+    message.split('')
+  end
   #encrypt method
   def key_range_method(key)
     key_shift(key).each_with_index do |shift, index1|
@@ -88,29 +90,16 @@ class Enigma
   end
 
   def decrypt(message, key = "key", date = 'date')
-    key_shift(key).each_with_index do |shift, index1|
-      @key_range.keys.each_with_index do |key, index2|
-          @key_range[key] += shift if index1 == index2
-        end
-      end
-    @key_range
-    date_array(date).each_with_index do |shift, index1|
-      @offset_range.keys.each_with_index do |key, index2|
-        @offset_range[key] += shift if index1 == index2
-      end
-    end
-    @offset_range
-    @final_range = @key_range.merge(@offset_range){|key, oldval, newval| newval + oldval}
-    @final_range
-
+    key_range_method(key)
+    offset_range_method(date)
+    final_range_method
     x = []
     y = []
     p = []
-    message_array = message.split('')
     encrypted_phrase = ""
-    message_array.each {|letter| x << @alphabet.index(letter)}
+    message_array(message).each {|letter| x << @alphabet.index(letter)}
     3.times { y << @final_range.values}
-    u = y.flatten.first(message_array.count)
+    u = y.flatten.first(message_array(message).count)
     x.each_with_index do |letter, index1|
       u.each_with_index do |char, index2|
         p << (letter - char) if index1 == index2
