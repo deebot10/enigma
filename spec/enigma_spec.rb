@@ -22,6 +22,14 @@ RSpec.describe Enigma do
       }
 
       expect(@enigma.encrypt("hello world", "02715", "040895")).to eq(expected)
+
+      # expected = {
+      #   encryption: "keder",
+      #   key: "02715",
+      #   dates: "040895"
+      # }
+      #
+      # expect(@enigma.encrypt("hello", "02715", "040895")).to eq(expected)
     end
   end
 end
