@@ -1,3 +1,5 @@
+require 'date'
+
 class Enigma
 
   def initialize
@@ -7,7 +9,7 @@ class Enigma
     @final_range = {}
   end
 
-  def encrypt(message, key = "key", date = "date")
+  def encrypt(message, key = "key", date = Date.today.strftime('%d%m%y'))
     key_range_method(key)
     offset_range_method(date)
     final_range_method
