@@ -1,6 +1,8 @@
 require 'date'
 
 class Enigma
+  attr_reader :key,
+              :date
 
   def initialize
     @alphabet     = ("a".."z").to_a << " "
@@ -9,7 +11,7 @@ class Enigma
     @final_range = {}
   end
 
-  def encrypt(message, key = "key", date = Date.today.strftime('%d%m%y'))
+  def encrypt(message, key = "0" + rand(1000...9999).to_s, date = Date.today.strftime('%d%m%y'))
     key_range_method(key)
     offset_range_method(date)
     final_range_method
@@ -33,7 +35,7 @@ class Enigma
   end
 
   def message_array(message)
-    message.split('')
+    message.downcase.split('')
   end
 
   #encrypt method
@@ -92,7 +94,7 @@ class Enigma
     date_array_i
   end
 
-  def decrypt(message, key = "key", date = Date.today.strftime('%d%m%y'))
+  def decrypt(message, key, date = Date.today.strftime('%d%m%y'))
     key_range_method(key)
     offset_range_method(date)
     final_range_method

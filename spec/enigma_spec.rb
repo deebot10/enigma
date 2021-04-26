@@ -1,4 +1,3 @@
-require 'date'
 require './lib/enigma'
 require 'date'
 
@@ -67,6 +66,13 @@ RSpec.describe Enigma do
         date: Date.today.strftime('%d%m%y')
         }
       expect(@enigma.decrypt(encrypted[:encryption], "02715")).to eq(expected)
+    end
+
+    it 'can encrypt a message with a generated key and todays date' do
+      x = @enigma.encrypt("hello world")
+      expect(x[:key].class).to eq(String)
+      expect(x[:key].length).to eq(5)
+      expect(x[:date]).to eq(Date.today.strftime('%d%m%y'))
     end
   end
 end
