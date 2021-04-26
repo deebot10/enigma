@@ -1,5 +1,6 @@
 require 'date'
 require './lib/enigma'
+require 'date'
 
 
 RSpec.describe Enigma do
@@ -40,5 +41,13 @@ RSpec.describe Enigma do
       }
       expect(@enigma.decrypt("keder ohulw", "02715", "040895")).to eq(expected)
     end
+
+    xit 'can encrypt a message with todays date'
+    expected = {
+      decryption: "hello world",
+      key: "02715",
+      date: Date.parse
+    }
+    expect(@enigma.encrypt("hello world", "02715")).to eq()
   end
 end
