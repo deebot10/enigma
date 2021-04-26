@@ -16,7 +16,7 @@ class Enigma
     p = []
     encrypted_phrase = ""
     message_array(message).each {|letter| x << @alphabet.index(letter)}
-    3.times { y << @final_range.values}
+    50.times { y << @final_range.values}
     u = y.flatten.first(message_array(message).count)
     x.each_with_index do |letter, index1|
       u.each_with_index do |char, index2|
@@ -33,6 +33,7 @@ class Enigma
   def message_array(message)
     message.split('')
   end
+
   #encrypt method
   def key_range_method(key)
     key_shift(key).each_with_index do |shift, index1|
@@ -98,7 +99,7 @@ class Enigma
     p = []
     encrypted_phrase = ""
     message_array(message).each {|letter| x << @alphabet.index(letter)}
-    3.times { y << @final_range.values}
+    50.times { y << @final_range.values}
     u = y.flatten.first(message_array(message).count)
     x.each_with_index do |letter, index1|
       u.each_with_index do |char, index2|
