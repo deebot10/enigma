@@ -8,7 +8,6 @@ class Enigma
   end
 
   def encrypt(message, key = "key", date = "date")
-    encrypt_message = []
     key_shift(key).each_with_index do |shift, index1|
       @key_range.keys.each_with_index do |key, index2|
           @key_range[key] += shift if index1 == index2
@@ -24,10 +23,10 @@ class Enigma
     @final_range = @key_range.merge(@offset_range){|key, oldval, newval| newval + oldval}
     @final_range
 
-    message_array = message.split('')
     x = []
     y = []
     p = []
+    message_array = message.split('')
     encrypted_phrase = ""
     message_array.each {|letter| x << @alphabet.index(letter)}
     3.times { y << @final_range.values}
@@ -77,5 +76,41 @@ class Enigma
       date.to_i
     end
     date_array_i
+  end
+
+  def decrypt(message, key = "key", date = 'date')
+    key_shift(key).each_with_index do |shift, index1|
+      @key_range.keys.each_with_index do |key, index2|
+          @key_range[key] += shift if index1 == index2
+        end
+      end
+    @key_range
+    date_array(date).each_with_index do |shift, index1|
+      @offset_range.keys.each_with_index do |key, index2|
+        @offset_range[key] += shift if index1 == index2
+      end
+    end
+    @offset_range
+    @final_range = @key_range.merge(@offset_range){|key, oldval, newval| newval + oldval}
+    @final_range
+
+    x = []
+    y = []
+    p = []
+    message_array = message.split('')
+    encrypted_phrase = ""
+    message_array.each {|letter| x << @alphabet.index(letter)}
+    3.times { y << @final_range.values}
+    u = y.flatten.first(message_array.count)
+    x.each_with_index do |letter, index1|
+      u.each_with_index do |char, index2|
+        p << (letter - char) if index1 == index2
+      end
+    end
+    p.each_with_index {|idx, index| encrypted_phrase << "#{@alphabet[p[index].remainder(27)]}"}
+    {decryption: encrypted_phrase,
+      key: key,
+      date: date
+    }
   end
 end
