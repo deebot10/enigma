@@ -8,21 +8,9 @@ class Enigma
   end
 
   def encrypt(message, key = "key", date = "date")
-    key_shift(key).each_with_index do |shift, index1|
-      @key_range.keys.each_with_index do |key, index2|
-          @key_range[key] += shift if index1 == index2
-        end
-      end
-    @key_range
-    date_array(date).each_with_index do |shift, index1|
-      @offset_range.keys.each_with_index do |key, index2|
-        @offset_range[key] += shift if index1 == index2
-      end
-    end
-    @offset_range
-    @final_range = @key_range.merge(@offset_range){|key, oldval, newval| newval + oldval}
-    @final_range
-
+    key_range_method(key)
+    offset_range_method(date)
+    final_range_method
     x = []
     y = []
     p = []
@@ -43,9 +31,30 @@ class Enigma
     }
   end
 
-  def letter_swapper(message)
-
+  #encrypt method
+  def key_range_method(key)
+    key_shift(key).each_with_index do |shift, index1|
+      @key_range.keys.each_with_index do |key, index2|
+          @key_range[key] += shift if index1 == index2
+        end
+      end
+    @key_range
   end
+
+    #encryption method
+  def offset_range_method(date)
+    date_array(date).each_with_index do |shift, index1|
+      @offset_range.keys.each_with_index do |key, index2|
+        @offset_range[key] += shift if index1 == index2
+      end
+    end
+    @offset_range
+  end
+
+  def final_range_method
+    @final_range = @key_range.merge(@offset_range){|key, oldval, newval| newval + oldval}
+  end
+
   #encrypt method
   def key_shift(key)
     key_arrays(key).map { |key| key.join.to_i}
