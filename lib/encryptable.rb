@@ -51,4 +51,34 @@ module Encryptable
     end
     date_array_i
   end
+
+  def encrypt_magic(message)
+    character_index = []
+    shifts = []
+    character_shifts = []
+    message_array(message).each {|letter| character_index << @alphabet.index(letter)}
+    50.times { shifts << @final_range.values}
+    final_shifts = shifts.flatten.first(message_array(message).count)
+    character_index.each_with_index do |letter, index1|
+      final_shifts.each_with_index do |char, index2|
+        character_shifts << (letter + char) if index1 == index2
+      end
+    end
+    character_shifts
+  end
+
+  def decrypt_magic(message)
+    character_index = []
+    shifts = []
+    character_shifts = []
+    message_array(message).each {|letter| character_index << @alphabet.index(letter)}
+    50.times { shifts << @final_range.values}
+    final_shifts = shifts.flatten.first(message_array(message).count)
+    character_index.each_with_index do |letter, index1|
+      final_shifts.each_with_index do |char, index2|
+        character_shifts << (letter - char) if index1 == index2
+      end
+    end
+    character_shifts
+  end
 end

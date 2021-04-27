@@ -18,19 +18,8 @@ class Enigma
     key_range_method(key)
     offset_range_method(date)
     final_range_method
-    x = []
-    y = []
-    p = []
     encrypted_phrase = ""
-    message_array(message).each {|letter| x << @alphabet.index(letter)}
-    50.times { y << @final_range.values}
-    u = y.flatten.first(message_array(message).count)
-    x.each_with_index do |letter, index1|
-      u.each_with_index do |char, index2|
-        p << (letter + char) if index1 == index2
-      end
-    end
-    p.each_with_index {|idx, index| encrypted_phrase << "#{@alphabet[p[index].remainder(27)]}"}
+    encrypt_magic(message).each_with_index {|idx, index| encrypted_phrase << "#{@alphabet[encrypt_magic(message)[index].remainder(27)]}"}
     {encryption: encrypted_phrase,
       key: key,
       date: date
@@ -41,19 +30,8 @@ class Enigma
     key_range_method(key)
     offset_range_method(date)
     final_range_method
-    x = []
-    y = []
-    p = []
     encrypted_phrase = ""
-    message_array(message).each {|letter| x << @alphabet.index(letter)}
-    50.times { y << @final_range.values}
-    u = y.flatten.first(message_array(message).count)
-    x.each_with_index do |letter, index1|
-      u.each_with_index do |char, index2|
-        p << (letter - char) if index1 == index2
-      end
-    end
-    p.each_with_index {|idx, index| encrypted_phrase << "#{@alphabet[p[index].remainder(27)]}"}
+    decrypt_magic(message).each_with_index {|idx, index| encrypted_phrase << "#{@alphabet[decrypt_magic(message)[index].remainder(27)]}"}
     {decryption: encrypted_phrase,
       key: key,
       date: date
