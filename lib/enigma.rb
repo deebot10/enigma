@@ -18,10 +18,18 @@ class Enigma
     key_range_method(key)
     offset_range_method(date)
     final_range_method
+    encrypted_phrase = ""
+    encrypt_magic(message).each_with_index {|idx, index| encrypted_phrase << "#{@alphabet[encrypt_magic(message)[index].remainder(27)]}"}
+    {encryption: encrypted_phrase,
+      key: key,
+      date: date
+    }
+  end
+
+  def encrypt_magic(message)
     character_index = []
     shifts = []
     character_shifts = []
-    encrypted_phrase = ""
     message_array(message).each {|letter| character_index << @alphabet.index(letter)}
     50.times { shifts << @final_range.values}
     u = shifts.flatten.first(message_array(message).count)
@@ -30,12 +38,7 @@ class Enigma
         character_shifts << (letter + char) if index1 == index2
       end
     end
-    character_shifts.each_with_index {|idx, index| encrypted_phrase << "#{@alphabet[character_shifts[index].remainder(27)]}"}
-    {encryption: encrypted_phrase,
-      key: key,
-      date: date
-    }
-    # require "pry"; binding.pry
+    character_shifts
   end
 
   def decrypt(message, key, date = Date.today.strftime('%d%m%y'))
