@@ -18,23 +18,24 @@ class Enigma
     key_range_method(key)
     offset_range_method(date)
     final_range_method
-    x = []
-    y = []
-    p = []
+    character_index = []
+    shifts = []
+    character_shifts = []
     encrypted_phrase = ""
-    message_array(message).each {|letter| x << @alphabet.index(letter)}
-    50.times { y << @final_range.values}
-    u = y.flatten.first(message_array(message).count)
-    x.each_with_index do |letter, index1|
+    message_array(message).each {|letter| character_index << @alphabet.index(letter)}
+    50.times { shifts << @final_range.values}
+    u = shifts.flatten.first(message_array(message).count)
+    character_index.each_with_index do |letter, index1|
       u.each_with_index do |char, index2|
-        p << (letter + char) if index1 == index2
+        character_shifts << (letter + char) if index1 == index2
       end
     end
-    p.each_with_index {|idx, index| encrypted_phrase << "#{@alphabet[p[index].remainder(27)]}"}
+    character_shifts.each_with_index {|idx, index| encrypted_phrase << "#{@alphabet[character_shifts[index].remainder(27)]}"}
     {encryption: encrypted_phrase,
       key: key,
       date: date
     }
+    # require "pry"; binding.pry
   end
 
   def decrypt(message, key, date = Date.today.strftime('%d%m%y'))

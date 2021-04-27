@@ -1,6 +1,6 @@
 module Encryptable
   def message_array(message)
-    message.downcase.split('')
+    message.downcase.split('') 
   end
 
   def key_range_method(key)
