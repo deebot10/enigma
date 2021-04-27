@@ -32,9 +32,9 @@ class Enigma
     character_shifts = []
     message_array(message).each {|letter| character_index << @alphabet.index(letter)}
     50.times { shifts << @final_range.values}
-    u = shifts.flatten.first(message_array(message).count)
+    final_shifts = shifts.flatten.first(message_array(message).count)
     character_index.each_with_index do |letter, index1|
-      u.each_with_index do |char, index2|
+      final_shifts.each_with_index do |char, index2|
         character_shifts << (letter + char) if index1 == index2
       end
     end
@@ -45,22 +45,26 @@ class Enigma
     key_range_method(key)
     offset_range_method(date)
     final_range_method
-    x = []
-    y = []
-    p = []
     encrypted_phrase = ""
-    message_array(message).each {|letter| x << @alphabet.index(letter)}
-    50.times { y << @final_range.values}
-    u = y.flatten.first(message_array(message).count)
-    x.each_with_index do |letter, index1|
-      u.each_with_index do |char, index2|
-        p << (letter - char) if index1 == index2
-      end
-    end
-    p.each_with_index {|idx, index| encrypted_phrase << "#{@alphabet[p[index].remainder(27)]}"}
+    decrypt_magic(message).each_with_index {|idx, index| encrypted_phrase << "#{@alphabet[decrypt_magic(message)[index].remainder(27)]}"}
     {decryption: encrypted_phrase,
       key: key,
       date: date
     }
+  end
+
+  def decrypt_magic(message)
+    character_index = []
+    shifts = []
+    character_shifts = []
+    message_array(message).each {|letter| character_index << @alphabet.index(letter)}
+    50.times { shifts << @final_range.values}
+    final_shifts = shifts.flatten.first(message_array(message).count)
+    character_index.each_with_index do |letter, index1|
+      final_shifts.each_with_index do |char, index2|
+        character_shifts << (letter - char) if index1 == index2
+      end
+    end
+    character_shifts
   end
 end
